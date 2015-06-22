@@ -1,0 +1,207 @@
+--------- Setup the project ----------------------------
+* Create new project of type "Blank App (Xamarin.Forms Portable)" named ZombiepediaApp
+
+--------- Add initial view and configure application to use it --------------
+* Add a folder called "Views" to the shared project
+* Add new "Forms XAML Page" called "HomeView" and paste the following code into it
+
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 x:Class="ZombiepediaApp.Views.HomeView">
+	<Label Text="Goodbye World!" VerticalOptions="Center" HorizontalOptions="Center" />
+</ContentPage>
+
+* Modify the app.cs and set the "MainPage" property to:
+    MainPage = new HomeView();
+
+----------- Formatting Text ------------------------
+* Replace the Label element with the following
+	<Label Text="Goodbye World!" VerticalOptions="Center" HorizontalOptions="Center" FontSize="36" />
+
+----------- Grid Layout Example ------------------------	
+* Replace the Label element with the following
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+  
+    <Label Grid.Row="0" Text="Zombiepedia" VerticalOptions="Center" HorizontalOptions="Center" FontSize="24" />
+    
+    <Label Grid.Row="1" Text="List of zombies..." VerticalOptions="Center" HorizontalOptions="Center" FontSize="36" />
+  </Grid>
+  
+------------ Data Binding Example -------------
+* Replace the first Label element with the following:
+      <Label Grid.Row="0" Text="{Binding Header}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="24" />
+
+* Edit the code behind file (HomeView.xaml.cs) and replace the contents with the following:
+using Xamarin.Forms;
+
+namespace ZombiepediaApp.Views
+{
+	public partial class HomeView : ContentPage
+	{
+		public string Header { get; set; }
+
+		public HomeView()
+		{
+			InitializeComponent();
+
+			Header = "Zombiepedia";
+			this.BindingContext = this;
+		}
+	}
+}
+
+----------- ListView Example -------------
+* Replace the second label with the following
+    <ListView Grid.Row="1 " ItemsSource="{Binding Zombies}" />
+
+* Replace the contents of the HomeView.xaml.cs with the following
+using System.Collections.ObjectModel;
+using Xamarin.Forms;
+
+namespace ZombiepediaApp.Views
+{
+    public partial class HomeView : ContentPage
+    {
+        public string Header { get; set; }
+        public ObservableCollection<string> Zombies { get; set; }
+
+        public HomeView()
+        {
+            InitializeComponent();
+
+            Header = "Zombiepedia";
+            Zombies = new ObservableCollection<string>() { "Ankle Biters", "Shufflers"};
+            this.BindingContext = this;
+        }
+    }
+}
+
+----------- ViewModel Example ---------------
+* Add a folder called "ViewModels" to the shared project
+* Add a new class to the "ViewModels" folder and call it "HomeViewModel"
+* Replace the contents of the new class with the following
+using System.Collections.ObjectModel;
+
+namespace ZombiepediaApp.ViewModels
+{
+    public class HomeViewModel
+    {
+        public string Header { get; set; }
+        public ObservableCollection<string> Zombies { get; set; }
+
+        public HomeViewModel()
+        {
+            Header = "Zombiepedia";
+            Zombies = new ObservableCollection<string>() { "Ankle Biters", "Shufflers" };
+        }
+    }
+}
+
+* Replace the contents of the HomeView.xaml.cs with the following
+using Xamarin.Forms;
+using ZombiepediaApp.ViewModels;
+
+namespace ZombiepediaApp.Views
+{
+    public partial class HomeView : ContentPage
+    {
+        public HomeView()
+        {
+            InitializeComponent();
+            this.BindingContext = new HomeViewModel();
+        }
+    }
+}
+
+-------------- Introduce Zombie Web Service ------------------------
+* Add the Newtonsoft JSON nuget package to the portable project
+* Add the Microsoft.Net.Http nuget package to the portable project
+* Add a "Models" folder to the portable project
+* Add a class to the "Models" folder called "Zombie.cs" and replace the contents with the following
+namespace ZombiepediaApp.Models
+{
+    public class Zombie
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+    }
+}
+
+* Add a "Services" folder to the portable project
+* Add a class to the "Services" folder called "ZombieDataService.cs" and replace the content with the following
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using ZombiepediaApp.Models;
+
+namespace ZombiepediaApp.Services
+{
+    public static class ZombieDataService
+    {
+        public static async Task<List<Zombie>> GetZombies()
+        {
+            var service = new HttpClient
+            {
+                BaseAddress = new Uri("http://zombiepedia.azurewebsites.net")
+            };
+            var response = await service.GetAsync("api/zombies");
+            var data = await response.Content.ReadAsStringAsync();
+            var zombies = JsonConvert.DeserializeObject<List<Zombie>>(data);
+            return zombies;
+        }
+    }
+}
+
+* Replace the contents of the "HomeViewModel.cs" file with the following
+using System.Collections.ObjectModel;
+using ZombiepediaApp.Models;
+using ZombiepediaApp.Services;
+
+namespace ZombiepediaApp.ViewModels
+{
+    public class HomeViewModel
+    {
+        public string Header { get; set; }
+        public ObservableCollection<Zombie> Zombies { get; set; }
+
+        public HomeViewModel()
+        {
+            Header = "Zombiepedia";
+            Zombies = new ObservableCollection<Zombie>();
+            LoadZombies();
+        }
+
+        public async void LoadZombies()
+        {
+            var serviceZombies = await ZombieDataService.GetZombies();
+            foreach (var zombie in serviceZombies)
+            {
+                Zombies.Add(zombie);
+            }
+        }
+    }
+}
+
+------------- Simple DataTemplate Example --------------
+* Replace the ListView element with the following
+    <ListView Grid.Row="1 " ItemsSource="{Binding Zombies}">
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <ViewCell>
+            <Label Text="{Binding Name}"/>
+          </ViewCell>
+        </DataTemplate>
+      </ListView.ItemTemplate> 
+    </ListView>
+	
+------------- Advanced DataTemplate Example ------------
+
+
