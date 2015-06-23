@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using ZombiepediaApp.Models;
+using ZombiepediaApp.Services;
 
 namespace ZombiepediaApp.ViewModels
 {
@@ -16,7 +17,18 @@ namespace ZombiepediaApp.ViewModels
         public DetailViewModel(Zombie zombie)
         {
             Zombie = zombie;
+            GetComments();
         }
 
+        private async void GetComments()
+        {
+            Comments = new ObservableCollection<string>();
+            var comments = await ZombieDataService.GetComments(Zombie.Id);
+
+            foreach (var comment in comments)
+            {
+                Comments.Add(comment);
+            }
+        }
     }
 }

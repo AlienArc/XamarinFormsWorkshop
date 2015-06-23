@@ -9,12 +9,29 @@ namespace ZombiepediaService.Services
 {
     public static class ZombieDataService
     {
-        private static readonly ZombieInfo[] ZombieData;
+        private static List<ZombieInfo> ZombieData;
 
         static ZombieDataService()
         {
+            CreateZombies();
+            AddComments();
+        }
+
+        private static void AddComments()
+        {
+            foreach (var zombie in ZombieData)
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    zombie.Comments.Add($"Test comment #{i}");
+                }
+            }
+        }
+
+        private static void CreateZombies()
+        {
             var serverAddress = "http://zombiepedia.azurewebsites.net/api/image/";
-            ZombieData = new ZombieInfo[]
+            ZombieData = new List<ZombieInfo>
             {
                 new ZombieInfo()
                 {
@@ -58,9 +75,14 @@ namespace ZombiepediaService.Services
             };
         }
 
-        public static ZombieInfo[] GetZombies()
+        public static List<ZombieInfo> GetZombies()
         {
             return ZombieData;
+        }
+
+        public static IEnumerable<string> GetComments(int zombieId)
+        {
+            return ZombieData.First(z => z.Id == zombieId).Comments;
         }
     }
 }
