@@ -29,7 +29,7 @@ namespace ZombiepediaApp.Services
             {
                 BaseAddress = new Uri("http://zombiepedia.azurewebsites.net")
             };
-            var response = await service.GetAsync($"api/comment/{id}");
+			var response = await service.GetAsync(string.Format("api/comment/{0}", id));
             var data = await response.Content.ReadAsStringAsync();
             var comments = JsonConvert.DeserializeObject<List<string>>(data);
             return comments;

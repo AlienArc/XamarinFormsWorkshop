@@ -10,10 +10,10 @@ namespace ZombiepediaApp.ViewModels
     public class DetailViewModel
     {
         private Zombie Zombie { get; set; }
-        public String Header => $"Zombiepedia - {Zombie.Name}";
-        public String Name => Zombie.Name;
-        public String Description => Zombie.Description;
-        public String ImagePath => Zombie.ImagePath;
+        public String Header {get{ return "Zombiepedia - " + Zombie.Name; }}
+		public String Nam { get { return Zombie.Name; } }
+		public String Description { get { return Zombie.Description; } }
+		public String ImagePath { get { return Zombie.ImagePath; } }
         public ObservableCollection<string> Comments { get; set; }
 	    public string Comment { get; set; }
 	    public ICommand AddCommentCommand { get; set; }

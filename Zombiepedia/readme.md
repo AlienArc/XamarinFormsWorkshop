@@ -356,9 +356,9 @@ This document is intended to help you follow along in the workshop as we create 
 		    public class DetailViewModel
 		    {
 		        private Zombie Zombie { get; set; }
-		        public String Name => Zombie.Name;
-		        public String Description => Zombie.Description;
-		        public String ImagePath => Zombie.ImagePath;
+		        public String Name { get { Zombie.Name; } }
+		        public String Description { get { return Zombie.Description; } }
+		        public String ImagePath { get { return Zombie.ImagePath; } }
 		        public ObservableCollection<string> Comments { get; set; }
 
 		        public DetailViewModel(Zombie zombie)
@@ -507,7 +507,7 @@ This document is intended to help you follow along in the workshop as we create 
 
 * Add the following property to the ***DetailViewModel.cs***
 
-    public String Header => $"Zombiepedia - {Zombie.Name}";
+    public String Header { get { return "Zombiepedia - " + Zombie.Name; } }
 
 ##Add comments to detail page
 
@@ -519,7 +519,7 @@ This document is intended to help you follow along in the workshop as we create 
 		    {
 		        BaseAddress = new Uri("http://zombiepedia.azurewebsites.net")
 		    };
-		    var response = await service.GetAsync($"api/comment/{id}");
+		    var response = await service.GetAsync(string.Format("api/comment/{0}", id));
 		    var data = await response.Content.ReadAsStringAsync();
 		    var comments = JsonConvert.DeserializeObject<List<string>>(data);
 		    return comments;
