@@ -31,6 +31,7 @@ This document is intended to help you follow along in the workshop as we create 
 * Create new ***Blank App (Xamarin.Forms Portable)*** project
 * Name it ***ZombiepediaApp*** (this is so namespaces from the included snippets work properly)
 * Update all Nuget Packages
+
 		Update-Package
 
 ## Initial view setup
@@ -49,9 +50,7 @@ This document is intended to help you follow along in the workshop as we create 
 
 * Modify the app.cs and set the ***MainPage*** property the new view:
 
-
-    MainPage = new HomeView();
-
+		MainPage = new HomeView();
 
 ## Formatting Text
 
@@ -59,7 +58,6 @@ This document is intended to help you follow along in the workshop as we create 
 
 ```
 	<Label Text="Goodbye World!" VerticalOptions="Center" HorizontalOptions="Center" FontSize="36" />
-
 ```
 
 ## Grid Layout
@@ -188,7 +186,7 @@ This document is intended to help you follow along in the workshop as we create 
 * Add the Microsoft.Net.Http nuget package to the portable project
 
 		Get-Project -All | Install-Package Microsoft.Net.Http
-		
+
 * Add a ***Models*** folder to the portable project
 * Add a class to the ***Models*** folder called ***Zombie.cs*** and replace the contents with the following
 
@@ -545,3 +543,16 @@ This document is intended to help you follow along in the workshop as we create 
 		        Comments.Add(comment);
 		    }
 		}
+
+##Add new comments from details page
+
+
+
+##Customer Renderer (Zombie Font)
+
+* Download Font file
+
+		http://openfontlibrary.org/assets/downloads/vshandprinted/21b50e4412a77ceb46f9327fb079d30f/vshandprinted.zip
+
+* Add font file to each platform project:
+	*	Android: Assets folder
