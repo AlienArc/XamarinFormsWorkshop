@@ -26,13 +26,15 @@ This document is intended to help you follow along in the workshop as we create 
 
 ## Setup the project
 
-* Create new project of type "Blank App (Xamarin.Forms Portable)"
-* Name it **ZombiepediaApp** (this is so namespaces from the included snippets work properly)
+* Create new ***Blank App (Xamarin.Forms Portable)*** project
+* Name it ***ZombiepediaApp*** (this is so namespaces from the included snippets work properly)
+* Update all Nuget Packages
+		Update-Package
 
 ## Initial view setup
 
-* Add a folder called **Views** to the shared project
-* Add new "Forms XAML Page" called * **HomeView** * and paste the following code into it
+* Add a folder called ***Views*** to the shared project
+* Add new ***Forms XAML Page*** called ***HomeView*** and paste the following code into it
 
 ```
 <?xml version="1.0" encoding="utf-8" ?>
@@ -43,7 +45,7 @@ This document is intended to help you follow along in the workshop as we create 
 </ContentPage>
 ```
 
-* Modify the app.cs and set the "MainPage" property the new view:
+* Modify the app.cs and set the ***MainPage*** property the new view:
 
     MainPage = new HomeView();
 
@@ -81,7 +83,7 @@ This document is intended to help you follow along in the workshop as we create 
 <Label Grid.Row="0" Text="{Binding Header}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="24" />
 ```
 
-* Edit the code behind file (HomeView.xaml.cs) and replace the contents with the following:
+* Edit the code behind file ***HomeView.xaml.cs*** and replace the contents with the following:
 
 		using Xamarin.Forms;
 
@@ -110,7 +112,7 @@ This document is intended to help you follow along in the workshop as we create 
 <ListView Grid.Row="1 " ItemsSource="{Binding Zombies}" />
 ```
 
-* Replace the contents of HomeView.xaml.cs with the following
+* Replace the contents of ***HomeView.xaml.cs*** with the following
 
 		using System.Collections.ObjectModel;
 		using Xamarin.Forms;
@@ -135,8 +137,8 @@ This document is intended to help you follow along in the workshop as we create 
 
 ## Switch to ViewModel
 
-* Add a folder called "ViewModels" to the shared project
-* Add a new class to the "ViewModels" folder and call it "HomeViewModel"
+* Add a folder called ***ViewModels*** to the shared project
+* Add a new class to the ***ViewModels*** folder and call it ***HomeViewModel***
 * Replace the contents of the new class with the following
 
 		using System.Collections.ObjectModel;
@@ -156,7 +158,7 @@ This document is intended to help you follow along in the workshop as we create 
 		    }
 		}
 
-* Replace the contents of the HomeView.xaml.cs with the following
+* Replace the contents of the ***HomeView.xaml.cs*** with the following
 
 		using Xamarin.Forms;
 		using ZombiepediaApp.ViewModels;
@@ -176,9 +178,11 @@ This document is intended to help you follow along in the workshop as we create 
 # Get Zombies from Web Service
 
 * Add the Newtonsoft JSON nuget package to the portable project
+		Install-Package Newtonsoft.JSON ZombiepediaApp
 * Add the Microsoft.Net.Http nuget package to the portable project
-* Add a "Models" folder to the portable project
-* Add a class to the "Models" folder called "Zombie.cs" and replace the contents with the following
+		Get-Project -All | Install-Package Microsoft.Net.Http
+* Add a ***Models*** folder to the portable project
+* Add a class to the ***Models*** folder called ***Zombie.cs*** and replace the contents with the following
 
 		namespace ZombiepediaApp.Models
 		{
@@ -190,8 +194,8 @@ This document is intended to help you follow along in the workshop as we create 
 		    }
 		}
 
-* Add a "Services" folder to the portable project
-* Add a class to the "Services" folder called "ZombieDataService.cs" and replace the content with the following
+* Add a ***Services*** folder to the portable project
+* Add a class to the ***Services*** folder called ***ZombieDataService.cs*** and replace the content with the following
 
 		using System;
 		using System.Collections.Generic;
@@ -218,7 +222,7 @@ This document is intended to help you follow along in the workshop as we create 
 		    }
 		}
 
-* Replace the contents of the "HomeViewModel.cs" file with the following
+* Replace the contents of the ***HomeViewModel.cs*** file with the following
 
 		using System.Collections.ObjectModel;
 		using ZombiepediaApp.Models;
@@ -289,7 +293,7 @@ This document is intended to help you follow along in the workshop as we create 
 
 ## Add Details Page
 
-* Add a new "Forms Xaml Page" called "DetailView" to the Views folder and replace its contents with the following
+* Add a new ***Forms Xaml Page*** called ***DetailView*** to the Views folder and replace its contents with the following
 
 ```
 <?xml version="1.0" encoding="utf-8" ?>
@@ -335,7 +339,7 @@ This document is intended to help you follow along in the workshop as we create 
 		    }
 		}
 
-* Add a new class called "DetailViewModel.cs" to the ViewModels folder and replace its contents with the following
+* Add a new class called ***DetailViewModel.cs*** to the ViewModels folder and replace its contents with the following
 
 		using System;
 		using System.Collections.ObjectModel;
@@ -359,8 +363,8 @@ This document is intended to help you follow along in the workshop as we create 
 		    }
 		}
 
-* Add a folder to the portable project called "XamlHelpers"
-* Add a new class to the new "XamlHelpers" folder called "ListViewCommands.cs" and replace its contents with the following
+* Add a folder to the portable project called ***XamlHelpers***
+* Add a new class to the new ***XamlHelpers*** folder called ***ListViewCommands.cs*** and replace its contents with the following
 
 		using Xamarin.Forms;
 
@@ -405,7 +409,7 @@ This document is intended to help you follow along in the workshop as we create 
 * Update the ListView element on the HomeView.Xaml view to the following
 
 ```
-<ListView Grid.Row="1 " ItemsSource="{Binding Zombies}"
+<ListView Grid.Row="1" ItemsSource="{Binding Zombies}"
           SelectedItem="{Binding SelectedZombie}"
           xh:ListViewCommands.ItemTapped="{Binding ZombieSelectedCommand}" >
   <ListView.ItemTemplate>
@@ -421,7 +425,7 @@ This document is intended to help you follow along in the workshop as we create 
 </ListView>
 ```
 
-* Replace the contents of the HomeViewModel.cs file with the following
+* Replace the contents of the ***HomeViewModel.cs*** file with the following
 
 		using System.Collections.ObjectModel;
 		using System.Windows.Input;
@@ -463,7 +467,7 @@ This document is intended to help you follow along in the workshop as we create 
 		    }
 		}
 
-* Update the App.cs file with the following
+* Update the ***App.cs*** file with the following
 
 		private NavigationPage rootNavigationPage;
 		public App()
@@ -476,7 +480,7 @@ This document is intended to help you follow along in the workshop as we create 
 
 ## Update Title
 
-* Update the ContentPage element of HomeView.Xaml with the following
+* Update the ***ContentPage*** element of ***HomeView.Xaml*** with the following
 
 ```
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
@@ -486,7 +490,7 @@ This document is intended to help you follow along in the workshop as we create 
              Title="{Binding Header}">
 ```
 
-* Update the ContentPage element of DetailView.Xaml with the following
+* Update the ***ContentPage*** element of ***DetailView.Xaml*** with the following
 
 ```
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
@@ -495,12 +499,13 @@ This document is intended to help you follow along in the workshop as we create 
              Title="{Binding Header}">
 ```
 
-* Add the following property to the DetailViewModel.cs
+* Add the following property to the ***DetailViewModel.cs***
 
     public String Header => $"Zombiepedia - {Zombie.Name}";
 
------------- Add comments to detail page ------------------
-* Add the following to the ZombieDataService
+##Add comments to detail page
+
+* Add the following to the ***ZombieDataService***
 
 	  public static async Task<List<string>> GetComments(int id)
 	  {
@@ -514,7 +519,7 @@ This document is intended to help you follow along in the workshop as we create 
 	      return comments;
 	  }
 
-* Update the following in the DetailViewModel
+* Update the following in the ***DetailViewModel***
 
     public DetailViewModel(Zombie zombie)
     {
