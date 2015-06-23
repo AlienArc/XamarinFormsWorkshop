@@ -38,18 +38,20 @@ This document is intended to help you follow along in the workshop as we create 
 * Add a folder called ***Views*** to the shared project
 * Add new ***Forms XAML Page*** called ***HomeView*** and paste the following code into it
 
-	```
-		<?xml version="1.0" encoding="utf-8" ?>
-		<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-					 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-					 x:Class="ZombiepediaApp.Views.HomeView">
-			<Label Text="Goodbye World!" VerticalOptions="Center" HorizontalOptions="Center" />
-		</ContentPage>
-	```
+```
+	<?xml version="1.0" encoding="utf-8" ?>
+	<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+				 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+				 x:Class="ZombiepediaApp.Views.HomeView">
+		<Label Text="Goodbye World!" VerticalOptions="Center" HorizontalOptions="Center" />
+	</ContentPage>
+```
 
 * Modify the app.cs and set the ***MainPage*** property the new view:
 
+
     MainPage = new HomeView();
+		
 
 ## Formatting Text
 
