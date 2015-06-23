@@ -14,7 +14,7 @@ using ZombiepediaService.Services;
 
 namespace ZombiepediaService.Controllers
 {
-	public class ZombiesController : ApiController
+	public class ZombieController : ApiController
 	{
 		// GET api/Zombies
 		public IEnumerable<ZombieInfo> Get()

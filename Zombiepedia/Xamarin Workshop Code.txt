@@ -412,7 +412,37 @@ namespace ZombiepediaApp.ViewModels
 * Add the following property to the DetailViewModel.cs
         public String Header => $"Zombiepedia - {Zombie.Name}";
 
+------------ Add comments to detail page ------------------
+* Add the following to the ZombieDataService
+        public static async Task<List<string>> GetComments(int id)
+        {
+            var service = new HttpClient
+            {
+                BaseAddress = new Uri("http://zombiepedia.azurewebsites.net")
+            };
+            var response = await service.GetAsync($"api/comment/{id}");
+            var data = await response.Content.ReadAsStringAsync();
+            var comments = JsonConvert.DeserializeObject<List<string>>(data);
+            return comments;
+        }
+		
+* Update the following in the DetailViewModel
+        public DetailViewModel(Zombie zombie)
+        {
+            Zombie = zombie;
+            GetComments();
+        }
 
+        private async void GetComments()
+        {
+            Comments = new ObservableCollection<string>();
+            var comments = await ZombieDataService.GetComments(Zombie.Id);
+
+            foreach (var comment in comments)
+            {
+                Comments.Add(comment);
+            }
+        }
 
 
 
