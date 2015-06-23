@@ -190,6 +190,9 @@ namespace ZombiepediaApp.ViewModels
     }
 }
 
+* Show how a delay in populating the list - add after Zombies.Add(zombie);
+	await Task.Delay(1000);
+
 ------------- Simple DataTemplate Example --------------
 * Replace the ListView element with the following
     <ListView Grid.Row="1 " ItemsSource="{Binding Zombies}">
@@ -203,5 +206,197 @@ namespace ZombiepediaApp.ViewModels
     </ListView>
 	
 ------------- Advanced DataTemplate Example ------------
+* Replace the ListView element with the following
+    <ListView Grid.Row="1 " ItemsSource="{Binding Zombies}">
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <ViewCell>
+            <StackLayout Orientation="Horizontal">
+              <Image Source="{Binding ImagePath}" />
+              <Label Text="{Binding Name}" FontSize="24"/>
+            </StackLayout>
+          </ViewCell>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+
+------------ Add Details Page -------------------------
+* Add a new "Forms Xaml Page" called "DetailView" to the Views folder and replace its contents with the following
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ZombiepediaApp.Views.DetailView">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    
+    <Image Grid.Row="0" Source="{Binding ImagePath}"/>
+    
+    <Label Grid.Row="1" Text="{Binding Name}" FontSize="36" HorizontalOptions="Center" />
+    
+    <Label Grid.Row="2" Text="{Binding Description}" FontSize="18" HorizontalOptions="Center" />
+    
+    <ListView Grid.Row="3" ItemsSource="{Binding Comments}" />
+    
+  </Grid>
+</ContentPage>
+
+* Replace the contents of the new code behind page with the following
+using Xamarin.Forms;
+using ZombiepediaApp.Models;
+using ZombiepediaApp.ViewModels;
+
+namespace ZombiepediaApp.Views
+{
+    public partial class DetailView : ContentPage
+    {
+        public DetailView(Zombie zombie)
+        {
+            InitializeComponent();
+            var viewModel = new DetailViewModel(zombie);
+            this.BindingContext = viewModel;
+        }
+    }
+}
+
+* Add a new class called "DetailViewModel.cs" to the ViewModels folder and replace its contents with the following
+using System;
+using System.Collections.ObjectModel;
+using ZombiepediaApp.Models;
+
+namespace ZombiepediaApp.ViewModels
+{
+    public class DetailViewModel
+    {
+        private Zombie Zombie { get; set; }
+        public String Name => Zombie.Name;
+        public String Description => Zombie.Description;
+        public String ImagePath => Zombie.ImagePath;
+        public ObservableCollection<string> Comments { get; set; }
+
+        public DetailViewModel(Zombie zombie)
+        {
+            Zombie = zombie;
+        }
+
+    }
+}
+
+* Add a folder to the portable project called "XamlHelpers"
+* Add a new class to the new "XamlHelpers" folder called "ListViewCommands.cs" and replace its contents with the following
+using Xamarin.Forms;
+
+namespace ZombiepediaApp.XamlHelpers
+{
+	public class ListViewCommands
+	{
+		public static readonly BindableProperty ItemTappedProperty =
+			BindableProperty.CreateAttached<ListViewCommands, Command>(
+				bindable => GetItemTapped(bindable),
+				null,
+				BindingMode.OneWay,
+				null,
+				OnItemTappedChanged,
+				null,
+				null);
+
+		public static Command GetItemTapped(BindableObject bo)
+		{
+			return (Command)bo.GetValue(ItemTappedProperty);
+		}
+
+		public static void SetItemTapped(BindableObject bo, Command value)
+		{
+			bo.SetValue(ItemTappedProperty, value);
+		}
+
+		public static void OnItemTappedChanged(BindableObject bo, Command oldValue, Command newValue)
+		{
+			var lv = bo as ListView;
+			if (lv != null)
+			{
+				lv.ItemTapped += (sender, args) =>
+				{
+					newValue.Execute(args.Item);
+				};
+			}
+		}
+	}
+}
+
+* Update the ListView element on the HomeView.Xaml view to the following
+    <ListView Grid.Row="1 " ItemsSource="{Binding Zombies}" 
+              SelectedItem="{Binding SelectedZombie}"
+              xh:ListViewCommands.ItemTapped="{Binding ZombieSelectedCommand}" >
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <ViewCell>
+            <StackLayout Orientation="Horizontal">
+              <Image Source="{Binding ImagePath}" />
+              <Label Text="{Binding Name}" FontSize="24"/>
+            </StackLayout>
+          </ViewCell>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+	
+* Replace the contents of the HomeViewModel.cs file with the following
+using System.Collections.ObjectModel;
+using System.Windows.Input;
+using Xamarin.Forms;
+using ZombiepediaApp.Models;
+using ZombiepediaApp.Services;
+
+namespace ZombiepediaApp.ViewModels
+{
+    public class HomeViewModel
+    {
+        public string Header { get; set; }
+        public ObservableCollection<Zombie> Zombies { get; set; }
+        public Zombie SelectedZombie { get; set; }
+        public ICommand ZombieSelectedCommand { get; private set; }
+
+        public HomeViewModel()
+        {
+            Header = "Zombiepedia";
+            ZombieSelectedCommand = new Command(ZombieSelectedExecute);
+            Zombies = new ObservableCollection<Zombie>();
+            LoadZombies();
+        }
+
+        public async void LoadZombies()
+        {
+            var serviceZombies = await ZombieDataService.GetZombies();
+            foreach (var zombie in serviceZombies)
+            {
+                Zombies.Add(zombie);
+            }
+        }
+
+        private void ZombieSelectedExecute()
+        {
+            MessagingCenter.Send(SelectedZombie, "NavigateToZombie");
+        }
+
+    }
+}
+
+* Update the App.cs file with the following
+	private NavigationPage rootNavigationPage;
+	public App()
+	{
+		// The root page of your application
+		MessagingCenter.Subscribe<Zombie>(this, "NavigateToZombie", NavigateToZombie);
+		rootNavigationPage = new NavigationPage(new HomeView());
+		MainPage = rootNavigationPage;
+	}
+
+-------------------------
+
+
 
 
