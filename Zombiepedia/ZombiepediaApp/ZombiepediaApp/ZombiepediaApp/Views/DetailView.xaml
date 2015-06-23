@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ZombiepediaApp.Views.DetailView" 
+             Title="{Binding Header}">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    
+    <Image Grid.Row="0" Source="{Binding ImagePath}"/>
+    
+    <Label Grid.Row="1" Text="{Binding Name}" FontSize="36" HorizontalOptions="Center" />
+    
+    <Label Grid.Row="2" Text="{Binding Description}" FontSize="18" HorizontalOptions="Center" />
+    
+    <ListView Grid.Row="3" ItemsSource="{Binding Comments}" />
+    
+  </Grid>
+</ContentPage>
