@@ -38,14 +38,14 @@ This document is intended to help you follow along in the workshop as we create 
 * Add a folder called ***Views*** to the shared project
 * Add new ***Forms XAML Page*** called ***HomeView*** and paste the following code into it
 
-		```
+	```
 		<?xml version="1.0" encoding="utf-8" ?>
 		<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
 					 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 					 x:Class="ZombiepediaApp.Views.HomeView">
 			<Label Text="Goodbye World!" VerticalOptions="Center" HorizontalOptions="Center" />
 		</ContentPage>
-		```
+	```
 
 * Modify the app.cs and set the ***MainPage*** property the new view:
 
@@ -56,7 +56,7 @@ This document is intended to help you follow along in the workshop as we create 
 * Replace the Label element with the following
 
 ```
-		<Label Text="Goodbye World!" VerticalOptions="Center" HorizontalOptions="Center" FontSize="36" />
+	<Label Text="Goodbye World!" VerticalOptions="Center" HorizontalOptions="Center" FontSize="36" />
 
 ```
 
@@ -65,16 +65,16 @@ This document is intended to help you follow along in the workshop as we create 
 * Replace the Label element with the following
 
 ```
-<Grid>
-  <Grid.RowDefinitions>
-    <RowDefinition Height="Auto" />
-    <RowDefinition Height="*" />
-  </Grid.RowDefinitions>
+	<Grid>
+	  <Grid.RowDefinitions>
+	    <RowDefinition Height="Auto" />
+	    <RowDefinition Height="*" />
+	  </Grid.RowDefinitions>
 
-  <Label Grid.Row="0" Text="Zombiepedia" VerticalOptions="Center" HorizontalOptions="Center" FontSize="24" />
+	  <Label Grid.Row="0" Text="Zombiepedia" VerticalOptions="Center" HorizontalOptions="Center" FontSize="24" />
 
-  <Label Grid.Row="1" Text="List of zombies..." VerticalOptions="Center" HorizontalOptions="Center" FontSize="36" />
-</Grid>
+	  <Label Grid.Row="1" Text="List of zombies..." VerticalOptions="Center" HorizontalOptions="Center" FontSize="36" />
+	</Grid>
 ```
 
 ## Data Binding
@@ -82,7 +82,7 @@ This document is intended to help you follow along in the workshop as we create 
 * Replace the first Label element with the following:
 
 ```
-<Label Grid.Row="0" Text="{Binding Header}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="24" />
+	<Label Grid.Row="0" Text="{Binding Header}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="24" />
 ```
 
 * Edit the code behind file ***HomeView.xaml.cs*** and replace the contents with the following:
@@ -111,7 +111,7 @@ This document is intended to help you follow along in the workshop as we create 
 * Replace the second label with the following
 
 ```
-<ListView Grid.Row="1 " ItemsSource="{Binding Zombies}" />
+	<ListView Grid.Row="1 " ItemsSource="{Binding Zombies}" />
 ```
 
 * Replace the contents of ***HomeView.xaml.cs*** with the following
@@ -263,15 +263,15 @@ This document is intended to help you follow along in the workshop as we create 
 * Replace the ListView element with the following
 
 ```
-<ListView Grid.Row="1 " ItemsSource="{Binding Zombies}">
-  <ListView.ItemTemplate>
-    <DataTemplate>
-      <ViewCell>
-        <Label Text="{Binding Name}"/>
-      </ViewCell>
-    </DataTemplate>
-  </ListView.ItemTemplate>
-</ListView>
+	<ListView Grid.Row="1 " ItemsSource="{Binding Zombies}">
+	  <ListView.ItemTemplate>
+	    <DataTemplate>
+	      <ViewCell>
+	        <Label Text="{Binding Name}"/>
+	      </ViewCell>
+	    </DataTemplate>
+	  </ListView.ItemTemplate>
+	</ListView>
 ```
 
 ## Advanced DataTemplate Example
@@ -279,18 +279,18 @@ This document is intended to help you follow along in the workshop as we create 
 * Replace the ListView element with the following
 
 ```
-<ListView Grid.Row="1 " ItemsSource="{Binding Zombies}">
-  <ListView.ItemTemplate>
-    <DataTemplate>
-      <ViewCell>
-        <StackLayout Orientation="Horizontal">
-          <Image Source="{Binding ImagePath}" />
-          <Label Text="{Binding Name}" FontSize="24"/>
-        </StackLayout>
-      </ViewCell>
-    </DataTemplate>
-  </ListView.ItemTemplate>
-</ListView>
+	<ListView Grid.Row="1 " ItemsSource="{Binding Zombies}">
+	  <ListView.ItemTemplate>
+	    <DataTemplate>
+	      <ViewCell>
+	        <StackLayout Orientation="Horizontal">
+	          <Image Source="{Binding ImagePath}" />
+	          <Label Text="{Binding Name}" FontSize="24"/>
+	        </StackLayout>
+	      </ViewCell>
+	    </DataTemplate>
+	  </ListView.ItemTemplate>
+	</ListView>
 ```
 
 ## Add Details Page
@@ -298,28 +298,28 @@ This document is intended to help you follow along in the workshop as we create 
 * Add a new ***Forms Xaml Page*** called ***DetailView*** to the Views folder and replace its contents with the following
 
 ```
-<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ZombiepediaApp.Views.DetailView">
-  <Grid>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto"/>
-      <RowDefinition Height="Auto"/>
-      <RowDefinition Height="Auto"/>
-      <RowDefinition Height="Auto"/>
-    </Grid.RowDefinitions>
+	<?xml version="1.0" encoding="utf-8" ?>
+	<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+	             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	             x:Class="ZombiepediaApp.Views.DetailView">
+	  <Grid>
+	    <Grid.RowDefinitions>
+	      <RowDefinition Height="Auto"/>
+	      <RowDefinition Height="Auto"/>
+	      <RowDefinition Height="Auto"/>
+	      <RowDefinition Height="Auto"/>
+	    </Grid.RowDefinitions>
 
-    <Image Grid.Row="0" Source="{Binding ImagePath}"/>
+	    <Image Grid.Row="0" Source="{Binding ImagePath}"/>
 
-    <Label Grid.Row="1" Text="{Binding Name}" FontSize="36" HorizontalOptions="Center" />
+	    <Label Grid.Row="1" Text="{Binding Name}" FontSize="36" HorizontalOptions="Center" />
 
-    <Label Grid.Row="2" Text="{Binding Description}" FontSize="18" HorizontalOptions="Center" />
+	    <Label Grid.Row="2" Text="{Binding Description}" FontSize="18" HorizontalOptions="Center" />
 
-    <ListView Grid.Row="3" ItemsSource="{Binding Comments}" />
+	    <ListView Grid.Row="3" ItemsSource="{Binding Comments}" />
 
-  </Grid>
-</ContentPage>
+	  </Grid>
+	</ContentPage>
 ```
 
 * Replace the contents of the new code behind page with the following
@@ -411,20 +411,20 @@ This document is intended to help you follow along in the workshop as we create 
 * Update the ListView element on the HomeView.Xaml view to the following
 
 ```
-<ListView Grid.Row="1" ItemsSource="{Binding Zombies}"
-          SelectedItem="{Binding SelectedZombie}"
-          xh:ListViewCommands.ItemTapped="{Binding ZombieSelectedCommand}" >
-  <ListView.ItemTemplate>
-    <DataTemplate>
-      <ViewCell>
-        <StackLayout Orientation="Horizontal">
-          <Image Source="{Binding ImagePath}" />
-          <Label Text="{Binding Name}" FontSize="24"/>
-        </StackLayout>
-      </ViewCell>
-    </DataTemplate>
-  </ListView.ItemTemplate>
-</ListView>
+	<ListView Grid.Row="1" ItemsSource="{Binding Zombies}"
+	          SelectedItem="{Binding SelectedZombie}"
+	          xh:ListViewCommands.ItemTapped="{Binding ZombieSelectedCommand}" >
+	  <ListView.ItemTemplate>
+	    <DataTemplate>
+	      <ViewCell>
+	        <StackLayout Orientation="Horizontal">
+	          <Image Source="{Binding ImagePath}" />
+	          <Label Text="{Binding Name}" FontSize="24"/>
+	        </StackLayout>
+	      </ViewCell>
+	    </DataTemplate>
+	  </ListView.ItemTemplate>
+	</ListView>
 ```
 
 * Replace the contents of the ***HomeViewModel.cs*** file with the following
@@ -485,20 +485,20 @@ This document is intended to help you follow along in the workshop as we create 
 * Update the ***ContentPage*** element of ***HomeView.Xaml*** with the following
 
 ```
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:xh="clr-namespace:ZombiepediaApp.XamlHelpers;assembly=ZombiepediaApp"
-             x:Class="ZombiepediaApp.Views.HomeView"
-             Title="{Binding Header}">
+	<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+	             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	             xmlns:xh="clr-namespace:ZombiepediaApp.XamlHelpers;assembly=ZombiepediaApp"
+	             x:Class="ZombiepediaApp.Views.HomeView"
+	             Title="{Binding Header}">
 ```
 
 * Update the ***ContentPage*** element of ***DetailView.Xaml*** with the following
 
 ```
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ZombiepediaApp.Views.DetailView"
-             Title="{Binding Header}">
+	<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+	             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	             x:Class="ZombiepediaApp.Views.DetailView"
+	             Title="{Binding Header}">
 ```
 
 * Add the following property to the ***DetailViewModel.cs***
