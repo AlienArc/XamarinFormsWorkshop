@@ -51,7 +51,7 @@ This document is intended to help you follow along in the workshop as we create 
 
 
     MainPage = new HomeView();
-		
+
 
 ## Formatting Text
 
@@ -182,9 +182,13 @@ This document is intended to help you follow along in the workshop as we create 
 # Get Zombies from Web Service
 
 * Add the Newtonsoft JSON nuget package to the portable project
+
 		Install-Package Newtonsoft.JSON ZombiepediaApp
+
 * Add the Microsoft.Net.Http nuget package to the portable project
+
 		Get-Project -All | Install-Package Microsoft.Net.Http
+		
 * Add a ***Models*** folder to the portable project
 * Add a class to the ***Models*** folder called ***Zombie.cs*** and replace the contents with the following
 
