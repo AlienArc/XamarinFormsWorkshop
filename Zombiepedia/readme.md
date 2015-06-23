@@ -507,33 +507,33 @@ This document is intended to help you follow along in the workshop as we create 
 
 * Add the following to the ***ZombieDataService***
 
-	  public static async Task<List<string>> GetComments(int id)
-	  {
-	      var service = new HttpClient
-	      {
-	          BaseAddress = new Uri("http://zombiepedia.azurewebsites.net")
-	      };
-	      var response = await service.GetAsync($"api/comment/{id}");
-	      var data = await response.Content.ReadAsStringAsync();
-	      var comments = JsonConvert.DeserializeObject<List<string>>(data);
-	      return comments;
-	  }
+		public static async Task<List<string>> GetComments(int id)
+		{
+		    var service = new HttpClient
+		    {
+		        BaseAddress = new Uri("http://zombiepedia.azurewebsites.net")
+		    };
+		    var response = await service.GetAsync($"api/comment/{id}");
+		    var data = await response.Content.ReadAsStringAsync();
+		    var comments = JsonConvert.DeserializeObject<List<string>>(data);
+		    return comments;
+		}
 
 * Update the following in the ***DetailViewModel***
 
-    public DetailViewModel(Zombie zombie)
-    {
-        Zombie = zombie;
-        GetComments();
-    }
+		public DetailViewModel(Zombie zombie)
+		{
+		    Zombie = zombie;
+		    GetComments();
+		}
 
-    private async void GetComments()
-    {
-        Comments = new ObservableCollection<string>();
-        var comments = await ZombieDataService.GetComments(Zombie.Id);
+		private async void GetComments()
+		{
+		    Comments = new ObservableCollection<string>();
+		    var comments = await ZombieDataService.GetComments(Zombie.Id);
 
-        foreach (var comment in comments)
-        {
-            Comments.Add(comment);
-        }
-    }
+		    foreach (var comment in comments)
+		    {
+		        Comments.Add(comment);
+		    }
+		}
