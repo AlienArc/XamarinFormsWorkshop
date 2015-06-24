@@ -545,8 +545,80 @@ This document is intended to help you follow along in the workshop as we create 
 		}
 
 ##Add new comments from details page
+* Add the following to the ZombieDataService
+        public static async Task<HttpResponseMessage> AddComment(int zombieId, string comment)
+        {
+            var service = new HttpClient
+            {
+                BaseAddress = new Uri("http://zombiepedia.azurewebsites.net")
+            };
+	        //var values = String.Format("{0}|{1}", zombieId.ToString(), comment);
 
+			//var content = new StringContent(values);
+			//var json = String.Format("{ \"ZombieId\":{0}; \"Comment\":\"{1}\"", zombieId, comment);
+			//var content = new StringContent();
+			//content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+	        var encodedComment = WebUtility.UrlEncode(comment);
 
+			try
+			{
+				var response = await service.GetAsync(String.Format("api/addcomment?ZombieId={0}&Comment={1}", zombieId, encodedComment));
+				return response;
+
+			}
+			catch (Exception ex)
+			{
+				return null;
+			}
+
+		}
+	
+* Update the DetailViewModel with the following
+	    public string Comment { get; set; }
+	    public ICommand AddCommentCommand { get; set; }
+
+        public DetailViewModel(Zombie zombie)
+        {
+            Zombie = zombie;
+			AddCommentCommand = new Command(AddComment);
+            GetComments();
+        }
+
+	    private async void AddComment()
+	    {
+		    await ZombieDataService.AddComment(Zombie.Id, Comment);
+			Comments.Add(Comment);
+		    Comment = "";
+	    }
+
+* Update the DetailView.Xaml with the following
+		<Grid>
+			<Grid.RowDefinitions>
+			  <RowDefinition Height="Auto"/>
+			  <RowDefinition Height="Auto"/>
+			  <RowDefinition Height="*"/>
+			  <RowDefinition Height="Auto"/>
+			  <RowDefinition Height="Auto"/>
+			</Grid.RowDefinitions>
+			
+			<Image Grid.Row="0" Source="{Binding ImagePath}"/>
+			
+			<Label Grid.Row="1" Text="{Binding Name}" FontSize="36" HorizontalOptions="Center" />
+			
+			<Label Grid.Row="2" Text="{Binding Description}" FontSize="18" HorizontalOptions="Center" />
+			
+			<Grid Grid.Row="3">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="Auto"/>
+				</Grid.ColumnDefinitions>
+				<Entry Grid.Column="0" Text="{Binding Comment}" />
+				<Button Grid.Column="1" Text="Add Comment" Command="{Binding AddCommentCommand}"/>
+			</Grid>
+
+			<ListView Grid.Row="4" ItemsSource="{Binding Comments}" />
+			
+		</Grid>
 
 ##Customer Renderer (Zombie Font)
 

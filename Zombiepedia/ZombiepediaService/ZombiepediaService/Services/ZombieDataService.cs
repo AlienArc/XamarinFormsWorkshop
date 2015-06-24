@@ -10,25 +10,59 @@ namespace ZombiepediaService.Services
     public static class ZombieDataService
     {
         private static List<ZombieInfo> ZombieData;
+		private static Random Random = new Random();
+
+	    private static List<string> CommentQuotes = new List<string>
+	    {
+		    "Mmmm, brains!",
+			"Ahhhhhhh!!!!!!",
+			"I won't bite, I promise.",
+			"You look good enough to eat.",
+			"Hey I know that guy.",
+			"If if it was an iZombie, then you would like it.",
+			"It's all Obama's fault!!!",
+			"He reminds me of someone I work with.",
+			"I work from home and make $20k per week. http://scam.gov",
+			"Zombies Rule!",
+			"I once killed 50 zombies with a soup spoon.",
+			"You can kill this kind by covering them with salt.",
+			"Looks like you mom!",
+			"No comments for you!",
+			"I blow my nose in your general direction!",
+			"He needs some Brawndo",
+			"Like from the toilet?",
+			"I fell of the Jetway again.",
+			"You got your law degree from Costco?",
+			"You have the minimum number of pieces of flair.",
+			"What would you do with a million bucks?",
+			"And now for something completly different"
+	    };
 
         static ZombieDataService()
         {
             CreateZombies();
-            AddComments();
+            AddDefaultComments();
         }
 
-        private static void AddComments()
+        private static void AddDefaultComments()
         {
             foreach (var zombie in ZombieData)
             {
-                for (int i = 0; i < 10; i++)
+	            var numOfComments = Random.Next(1, 10);
+                for (int i = 0; i < numOfComments; i++)
                 {
-                    zombie.Comments.Add($"Test comment #{i}");
+                    zombie.Comments.Add(GetRandomComment());
                 }
             }
         }
 
-        private static void CreateZombies()
+	    private static string GetRandomComment()
+	    {
+		    var position = Random.Next(0, CommentQuotes.Count());
+		    return CommentQuotes[position];
+	    }
+
+	    private static void CreateZombies()
         {
             var serverAddress = "http://zombiepedia.azurewebsites.net/api/image/";
             ZombieData = new List<ZombieInfo>
@@ -84,5 +118,15 @@ namespace ZombiepediaService.Services
         {
             return ZombieData.First(z => z.Id == zombieId).Comments;
         }
+
+	    public static void AddComment(int zombieId, string comment)
+	    {
+		    var zombie = ZombieData.FirstOrDefault(z => z.Id == zombieId);
+
+		    if (zombie != null)
+		    {
+			    zombie.Comments.Add(comment);
+		    }
+	    }
     }
 }

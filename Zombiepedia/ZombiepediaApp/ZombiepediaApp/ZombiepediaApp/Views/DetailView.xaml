@@ -7,6 +7,7 @@
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
@@ -17,7 +18,16 @@
     
     <Label Grid.Row="2" Text="{Binding Description}" FontSize="18" HorizontalOptions="Center" />
     
-    <ListView Grid.Row="3" ItemsSource="{Binding Comments}" />
-    
-  </Grid>
+    <Grid Grid.Row="3">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="Auto"/>
+			</Grid.ColumnDefinitions>
+			<Entry Grid.Column="0" Text="{Binding Comment}" />
+			<Button Grid.Column="1" Text="Add Comment" Command="{Binding AddCommentCommand}"/>
+		</Grid>
+
+		<ListView Grid.Row="4" ItemsSource="{Binding Comments}" />
+    	
+	</Grid>
 </ContentPage>
