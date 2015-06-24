@@ -412,6 +412,12 @@ This document is intended to help you follow along in the workshop as we create 
 			}
 		}
 
+* Update the ContentPage element on the HomeView.Xaml view to include the xml namespace 
+
+```
+	xmlns:xh="clr-namespace:ZombiepediaApp.XamlHelpers;assembly=ZombiepediaApp"
+```
+
 * Update the ListView element on the HomeView.Xaml view to the following
 
 ```
@@ -484,6 +490,11 @@ This document is intended to help you follow along in the workshop as we create 
 			MainPage = rootNavigationPage;
 		}
 
+        private void NavigateToZombie(Zombie zombie)
+        {
+            rootNavigationPage.PushAsync(new DetailView(zombie));
+        }
+		
 ## Update Title
 
 * Update the ***ContentPage*** element of ***HomeView.Xaml*** with the following
