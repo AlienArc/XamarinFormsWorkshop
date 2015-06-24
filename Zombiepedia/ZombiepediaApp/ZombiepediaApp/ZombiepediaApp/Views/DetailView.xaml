@@ -18,16 +18,19 @@
     
     <Label Grid.Row="2" Text="{Binding Description}" FontSize="18" HorizontalOptions="Center" />
     
-    <Grid Grid.Row="3">
+    <Grid Grid.Row="4">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*"/>
 				<ColumnDefinition Width="Auto"/>
 			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+			</Grid.RowDefinitions>
 			<Entry Grid.Column="0" Text="{Binding Comment}" />
 			<Button Grid.Column="1" Text="Add Comment" Command="{Binding AddCommentCommand}"/>
 		</Grid>
 
-		<ListView Grid.Row="4" ItemsSource="{Binding Comments}" />
+		<ListView Grid.Row="3" ItemsSource="{Binding Comments}" />
     	
 	</Grid>
 </ContentPage>

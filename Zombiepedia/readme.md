@@ -623,6 +623,9 @@ This document is intended to help you follow along in the workshop as we create 
 					<ColumnDefinition Width="*"/>
 					<ColumnDefinition Width="Auto"/>
 				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+				</Grid.RowDefinitions>
 				<Entry Grid.Column="0" Text="{Binding Comment}" />
 				<Button Grid.Column="1" Text="Add Comment" Command="{Binding AddCommentCommand}"/>
 			</Grid>
